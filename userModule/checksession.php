@@ -1,11 +1,16 @@
 <?php
+    include_once "../db_conn.php";
 
-   include_once "../db_conn.php";
+
+if(isset($_SESSION['user_id'])) {
 
 
-   if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
-    echo json_encode(['user_id' => $userId]);
-  } else {
-    echo json_encode(['error' => 'User ID not found']);
-  }
+  echo "uy gagi";
+
+    // User is not logged in, redirect to login page
+    exit();
+}
+  echo "logged in";
+// User is logged in, display the page content
+// ...
+?>

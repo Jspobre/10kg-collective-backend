@@ -26,6 +26,7 @@ if(isset($_POST['full_name'])){
 
     if(insert($conn, $table, $fields) ){
 
+        $user = $_SESSION['user_id'];
         $user_id = mysqli_insert_id($conn);
         echo "Welcome to 10KG, $fname!";
         exit();
