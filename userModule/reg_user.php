@@ -27,11 +27,27 @@ if(isset($_POST['full_name'])){
     if(insert($conn, $table, $fields) ){
 
         $user_id = mysqli_insert_id($conn);
-        echo "Welcome to 10KG, $fname!";
+        // echo $user_id;
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_type'] = 'c';
+        
+        // if successfull
+        // create a response array
+        $response = array('response_status' => 1
+        , 'user_id' => $user_id
+        , 'user_type' => $_SESSION['user_type']
+        , 'full_name' => $fname
+        , 'email_address' => $email
+        , 'contact_no' => $cnumber);
+
+
+        // send as JSON object to react
+        echo json_encode($response);
         exit();
     }  
     else{
-        echo "Failed";
+        // if failed
+        echo 0;
         exit();
     }
 }
