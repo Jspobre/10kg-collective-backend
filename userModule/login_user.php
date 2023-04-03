@@ -10,17 +10,20 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
     
 
 
-
+// check if theres POST
 if(isset($_POST ['log_email'], $_POST['log_password'])){
+    // grab POST data
     $email = $_POST['log_email'];
     $password = $_POST ['log_password'];
 
-
-                $query = "SELECT * FROM user WHERE email_address = '$email'";
-                $result = mysqli_query($conn, $query);
+    // get single row of user 
+    $query = "SELECT * FROM user WHERE email_address = '$email'";
+    $result = mysqli_query($conn, $query);
         
+        // if user is existing
         if(mysqli_num_rows($result) > 0){
-            $user = mysqli_fetch_assoc($result);
+            $user = mysqli_fetch_assoc($result); //turn result into associative array
+                    // check pass
                     if($password == $user['password']){
 
                     // if password matched
@@ -37,14 +40,13 @@ if(isset($_POST ['log_email'], $_POST['log_password'])){
 
                     // send as json object to react
                     echo json_encode($response);
-                    // echo var_dump($user);
                     
                 } else {
-                    // if theres not matched
+                    // if not matched
                     echo 3;
                 }
         }
-            } 
+} 
 // ?>
 
 

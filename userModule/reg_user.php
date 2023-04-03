@@ -23,16 +23,17 @@ if(isset($_POST['full_name'])){
                    );
     
 
-
+// insert to db
     if(insert($conn, $table, $fields) ){
+        // if successful
 
-        $user = $_SESSION['user_id'];
-        $user_id = mysqli_insert_id($conn);
-        // echo $user_id;
+        $user_id = mysqli_insert_id($conn); //getting newly generated user_id
+        
+        // create session
         $_SESSION['user_id'] = $user_id;
         $_SESSION['user_type'] = 'c';
         
-        // if successfull
+
         // create a response array
         $response = array('response_status' => 1
         , 'user_id' => $user_id
