@@ -13,6 +13,10 @@ if(isset($_POST ['log_email'], $_POST['log_password'])){
     $email = $_POST['log_email'];
     $password = $_POST ['log_password'];
 
+if(isset($_POST ['log_email'], $_POST['log_password'])){
+    $email = $_POST['log_email'];
+    $password = $_POST ['log_password'];
+
 
                 $query = "SELECT * FROM user WHERE email_address = '$email'";
                 $result = mysqli_query($conn, $query);
@@ -44,6 +48,12 @@ if(isset($_POST ['log_email'], $_POST['log_password'])){
         }
             } 
 // ?>
+
+
+
+
+
+
 
 
 
