@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 
     
-if(isset($_POST['item_id'])) {
+if(isset($_POST['buy'])) {
 
     $item_id = $_POST['item_id'];
     $item_size = $_POST['item_size'];
