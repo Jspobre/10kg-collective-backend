@@ -35,5 +35,6 @@ if(isset($_POST['item_id'])) {
         }
     }
    // var_dump($fields);
+}
 
 ?>
