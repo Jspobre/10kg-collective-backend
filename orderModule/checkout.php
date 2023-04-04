@@ -8,7 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 
     
-if(isset($_POST['buy'])) {
+if(isset($_POST['item_id'])) {
 
     $item_id = $_POST['item_id'];
     $item_size = $_POST['item_size'];
@@ -17,10 +17,10 @@ if(isset($_POST['buy'])) {
     $order_status = "P";
     
     if(isset($_SESSION['user_id'])) {
-        $user = $_SESSION['user_id'];
+        $user['user_id'] = $_SESSION['user_id'];
         $table = "orders";
         $fields = array(
-            'user_id' => $user_id, // use the session variable to store user ID
+            'user_id' => $user['user_id'], // use the session variable to store user ID
             'item_id' => $item_id,
             'order_qty' => $order_qty,
             'item_variant' => $item_variant,
@@ -29,12 +29,13 @@ if(isset($_POST['buy'])) {
         );
         
         if(insert($conn, $table, $fields)){
-            echo "sheesh";
+            echo 1;
+
         } else {
-            die("hello");
+            echo 2;
         }
     }
-   // var_dump($fields);
+
 }
 
 ?>
