@@ -40,7 +40,8 @@ if(isset($_POST['full_name'])){
         , 'user_type' => $_SESSION['user_type']
         , 'full_name' => $fname
         , 'email_address' => $email
-        , 'contact_no' => $cnumber);
+        , 'contact_no' => $cnumber
+        , 'address' => $address);
 
 
         // send as JSON object to react
