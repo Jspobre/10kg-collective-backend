@@ -37,7 +37,7 @@ if(isset($_POST ['log_email'], $_POST['log_password'])){
                                     , 'full_name' => $user['full_name']
                                     , 'email_address' => $user['email_address']
                                     , 'contact_no' => $user['contact_no']
-                                    , 'address' => $address['address']
+                                    , 'address' => $user['address']
                                 );
 
                     // send as json object to react
