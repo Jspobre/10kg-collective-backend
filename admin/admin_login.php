@@ -25,7 +25,7 @@ include_once "../db_conn.php";
            
         }
         } else {
-              echo 2;
+           die("maintenance mode");
 
         }
       
