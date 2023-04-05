@@ -12,21 +12,22 @@ include_once "../db_conn.php";
             if($admin_pass == $row['admin_password']){
 
                 $_SESSION['admin_id'] = $row['admin_id']; //set session
-                    $_SESSION['user_type'] = 'A';
+                    $_SESSION['user_type'] = 'a';
 
                     $response = array('response_status' => 1
                                     , 'admin_id' => $row['admin_id']
                                     , 'user_type' => $_SESSION['user_type']
                                     , 'admin_email' => $row['admin_email']                             
                                 );
-
+             
                     // send as json object to react
                     echo json_encode($response);
+           
         }
         } else {
               echo 2;
 
         }
-              
+      
 
     }
