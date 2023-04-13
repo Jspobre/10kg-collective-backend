@@ -23,9 +23,8 @@
             $stmt->execute();
             $stmt->close();
         }
-        
-        // Assuming $variation_name is an array of variation names
-        // Loop through the array and insert each variation as a separate row in the item_variation table
+
+        //insert into item_variation table sheesh
         foreach($variation_name as $variation){
             $sql = "INSERT INTO item_variation (item_id, variation_name) VALUES (?, ?)";
             $stmt = $conn->prepare($sql);
