@@ -5,8 +5,8 @@
         $item_name = $_POST['item_name'];
         $item_price = $_POST['item_price'];
         $item_category = $_POST['item_category'];
-        $size_name = $_POST['size_name'];
-        $variation_name = $_POST['variation_name']; //get the converted array of objects to string
+        $size_names = $_POST['size_name']; // updated to receive an array of size names
+        $variation_names = json_decode($_POST['variation_name']); // updated to receive an array of variation names
         
         // insert to items table
         $sql = "INSERT INTO items (item_name, item_price, item_category) VALUES (?, ?, ?)";
@@ -16,28 +16,32 @@
         $item_id = $stmt->insert_id;
         $stmt->close();
 
-        foreach($size_name as $size){
+        // insert size data into item_sizes table as separate rows for each size
+        foreach ($size_names as $size_name) {
             $sql = "INSERT INTO item_sizes (item_id, size_name) VALUES (?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("is", $item_id, $size);
-            $stmt->execute();
-            $stmt->close();
-        }
-        
-        // Assuming $variation_name is an array of variation names
-        // Loop through the array and insert each variation as a separate row in the item_variation table
-        foreach($variation_name as $variation){
-            $sql = "INSERT INTO item_variation (item_id, variation_name) VALUES (?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("is", $item_id, $variation);
+            $stmt->bind_param("is", $item_id, $size_name);
             $stmt->execute();
             $stmt->close();
         }
 
+        // convert $variation_names to JSON string if it's an array of objects
+        $variation_names = is_array($variation_names) ? json_encode($variation_names) : $variation_names;
+
+        // insert variation data into item_variation table as separate rows for each variation
+        foreach ($variation_names as $variation_name) {
+            $sql = "INSERT INTO item_variation (item_id, variation_name) VALUES (?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("is", $item_id, $variation_name);
+            $stmt->execute();
+            $stmt->close();
+        }
+        
         if(mysqli_stmt_affected_rows($stmt) > 0){
             echo 1;
         }else{
-            echo 2;
+            echo "uy gegi";
         }
     }
 ?>
+
