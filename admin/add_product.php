@@ -1,6 +1,8 @@
 <?php
     include_once "../db_conn.php";
 
+    $isInsert = false;
+
     if(isset($_POST['item_name'])){
         $item_name = $_POST['item_name'];
         $item_price = $_POST['item_price'];
@@ -31,6 +33,8 @@
             $stmt->bind_param("is", $item_id, $variation);
             $stmt->execute();
             $stmt->close();
+
+            $isInsert = true;
         }
         $result = mysqli_stmt_execute($stmt);
 
@@ -39,12 +43,11 @@
                 // Get the number of rows affected
                 $numRows = mysqli_stmt_affected_rows($stmt);
 
-                if ($numRows > 0) {
-                    echo 1;
-                } else {
-                    // echo "No rows affected.";
-                }
-            } 
-
+        if(mysqli_stmt_affected_rows($stmt) > 0){
+            echo 1;
+        }else{
+            echo 2;
+        }
     }
+}
 ?>
