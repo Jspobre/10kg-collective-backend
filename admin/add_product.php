@@ -1,6 +1,8 @@
 <?php
     include_once "../db_conn.php";
 
+    $isInsert = false;
+
     if(isset($_POST['item_name'])){
         $item_name = $_POST['item_name'];
         $item_price = $_POST['item_price'];
@@ -31,12 +33,20 @@
             $stmt->bind_param("is", $item_id, $variation);
             $stmt->execute();
             $stmt->close();
+
+            $isInsert = true;
         }
 
-        if(mysqli_stmt_affected_rows($stmt) > 0){
+        // if(mysqli_stmt_affected_rows($stmt) > 0){
+        //     echo 1;
+        // }else{
+        //     echo 2;
+        // }
+        if($isInsert){
             echo 1;
-        }else{
-            echo 2;
+            $isInsert = false;
+        }else {
+            echo 0;
         }
     }
 ?>
