@@ -32,11 +32,19 @@
             $stmt->execute();
             $stmt->close();
         }
+        $result = mysqli_stmt_execute($stmt);
 
-        if(mysqli_stmt_affected_rows($stmt) > 0){
-            echo 1;
-        }else{
-            echo 2;
-        }
+            // Check if the statement was successful
+            if ($result) {
+                // Get the number of rows affected
+                $numRows = mysqli_stmt_affected_rows($stmt);
+
+                if ($numRows > 0) {
+                    echo 1;
+                } else {
+                    // echo "No rows affected.";
+                }
+            } 
+
     }
 ?>
