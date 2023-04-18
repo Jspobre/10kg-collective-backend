@@ -12,7 +12,7 @@ include_once '../db_conn.php';
             $item_size = $_POST['item_size'];
             $item_variant = $_POST['item_variant'];
             $order_qty = $_POST['order_qty'];
-            $status = "C";
+            $status = "Cart";
 
             $table = "orders";
 
