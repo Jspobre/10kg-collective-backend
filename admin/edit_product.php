@@ -2,7 +2,7 @@
 
 include_once "../db_conn.php";
 
-if(isset($_POST['item_id']) && isset($_POST["item_name"]) && isset($_POST["item_price"]) && isset($_POST["item_category"]) && isset($_POST["size_name"]) && isset($_POST["variation_name"])) {
+if(isset($_POST['item_id'])) {
     $item_id = $_POST["item_id"];
     $item_name = $_POST["item_name"];
     $item_price = $_POST["item_price"];
@@ -11,8 +11,8 @@ if(isset($_POST['item_id']) && isset($_POST["item_name"]) && isset($_POST["item_
     $variation_name = $_POST["variation_name"];
 
     // Update item_name, item_price, and item_category in items table based on item_id
-    $stmt = $conn->prepare("UPDATE items SET item_name = ?, item_price = ?, item_category = ? WHERE item_id = ?");
-    $stmt->bind_param("sdsi", $item_name, $item_price, $item_category, $item_id); // Fix parameter types
+    $stmt = $conn->prepare("UPDATE items SET item_name = ?, item_price = ?, item_category = ? WHERE item_id = ? ");
+    $stmt->bind_param("sisi", $item_name, $item_price, $item_category, $item_id);   
     if ($stmt->execute()) {
         $stmt->close();
 
@@ -29,28 +29,24 @@ if(isset($_POST['item_id']) && isset($_POST["item_name"]) && isset($_POST["item_
         $stmt->close();
 
         // Insert new data into item_sizes table
-        $stmt = $conn->prepare("INSERT INTO item_sizes (item_id, size_name) VALUES (?, ?)");
         foreach ($size_name as $size) {
+            $stmt = $conn->prepare("INSERT INTO item_sizes (item_id, size_name) VALUES (?, ?)");
             $stmt->bind_param("is", $item_id, $size);
             $stmt->execute();
+            $stmt->close();
         }
-        $stmt->close();
 
         // Insert new data into item_variation table
-        $stmt = $conn->prepare("INSERT INTO item_variation (item_id, variation_name) VALUES (?, ?)");
         foreach ($variation_name as $variation) {
+            $stmt = $conn->prepare("INSERT INTO item_variation (item_id, variation_name) VALUES (?, ?)");
             $stmt->bind_param("is", $item_id, $variation);
             $stmt->execute();
+            $stmt->close();
         }
-        $stmt->close();
 
         $conn->close();
 
         echo 1;
-    } else {
-        echo "Error updating items table: " . $stmt->error; // Add error handling for update query
     }
-} else {
-    echo "Missing form data"; // Add error handling for missing form data
 }
 ?>
