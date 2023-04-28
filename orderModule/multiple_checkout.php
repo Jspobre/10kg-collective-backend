@@ -11,7 +11,9 @@ if(isset($_POST['user_id'])){
         $order_status = 'P'; 
 
         // Update the order_status
-        $query = "UPDATE orders SET order_status = ? WHERE order_id = ?";
+        $query = "UPDATE orders 
+                    SET order_status = ?, date_ordered = CURRENT_TIMESTAMP 
+                    WHERE order_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('si', $order_status, $order_id);
         if($stmt->execute()){

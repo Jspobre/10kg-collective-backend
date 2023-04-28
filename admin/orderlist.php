@@ -7,7 +7,10 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 include_once '../db_conn.php';
 
 // $itemlist = query($conn, "select * from items where item_status='A'");
-$itemlist = query($conn, "SELECT * FROM orders JOIN user ON orders.user_id = user.user_id JOIN items ON orders.item_id = items.item_id");
+$itemlist = query($conn, "SELECT * FROM orders
+                            JOIN user ON orders.user_id = user.user_id
+                            JOIN items ON orders.item_id = items.item_id
+                            WHERE TIMESTAMPDIFF(HOUR, date_ordered, NOW()) > 24");
 
 
 
