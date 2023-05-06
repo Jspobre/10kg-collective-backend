@@ -35,4 +35,50 @@ if(isset($_POST['action'])){
         }
 
     }
+    if($_POST['action'] == 'Ship Order'){
+        $query = "UPDATE orders 
+                    SET delivery_status = ? 
+                    WHERE order_id = ?";
+        $delivery_status = "S";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('si', $delivery_status, $order_id);
+        if($stmt->execute()){
+                echo 1;
+                $stmt->close();
+        }else {
+            echo 0;
+        }
+    }
+    if($_POST['action'] == 'Delivered'){
+        $query = "UPDATE orders 
+                    SET delivery_status = ? 
+                    WHERE order_id = ?";
+        $delivery_status = "D";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('si', $delivery_status, $order_id);
+        if($stmt->execute()){
+                echo 1;
+                $stmt->close();
+        }else {
+            echo 0;
+        }
+
+    }
+    if($_POST['action'] == 'Rejected'){
+        $query = "UPDATE orders 
+                    SET delivery_status = ? 
+                    WHERE order_id = ?";
+        $delivery_status = "R";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('si', $delivery_status, $order_id);
+        if($stmt->execute()){
+                echo 1;
+                $stmt->close();
+        }else {
+            echo 0;
+        }
+    }
 }

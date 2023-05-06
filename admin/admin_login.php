@@ -17,7 +17,7 @@ include_once "../db_conn.php";
                     $response = array('response_status' => 1
                                     , 'admin_id' => $row['admin_id']
                                     , 'user_type' => $_SESSION['user_type']
-                                    , 'admin_email' => $row['admin_email']                             
+                                    , 'admin_email' => $row['admin_email']  
                                 );
              
                     // send as json object to react
