@@ -1,0 +1,54 @@
+<?php
+
+include_once '../db_conn.php';
+
+if (isset($_FILES['thumbnail']) && isset($_FILES['showcase'])) {
+        $thumbnail = $_FILES['thumbnail'];
+        $showcase = $_FILES['showcase'];
+
+        
+
+
+        // Prepare the SQL statement
+        $stmt = $conn->prepare("INSERT INTO item_image (item_id, image_use, image_location, image_name) VALUES (?, ?, ?, ?)");
+
+        // Bind the parameters
+$item_id = 1;
+$image_use_thumbnail = 'thumbnail';
+$image_use_showcase = 'showcase';
+$image_location_thumbnail = '../uploads/thumbnail/';
+$image_location_showcase = '../uploads/showcase/';
+
+// Handle thumbnail file
+$thumbnail_name = uniqid() . '-' . $thumbnail['name'];
+$stmt->bind_param("isss", $item_id, $image_use_thumbnail, $thumbnail_location, $thumbnail_name);
+$thumbnail_location = $image_location_thumbnail . $thumbnail_name;
+$stmt->execute();
+move_uploaded_file($thumbnail['tmp_name'], '../uploads/thumbnail/' . $thumbnail_name);
+
+// Handle showcase files
+$showcase_files = [];
+$showcase_names = [];
+
+// Iterate over each showcase file
+foreach ($showcase['tmp_name'] as $key => $tmp_name) {
+    $showcase_name = uniqid() . '-' . $showcase['name'][$key];
+    $showcase_files[] = $tmp_name;
+    $showcase_names[] = $showcase_name;
+
+    $showcase_location = $image_location_showcase . $showcase_name;
+    $stmt->bind_param("isss", $item_id, $image_use_showcase, $showcase_location, $showcase_name);
+    $stmt->execute();
+}
+
+// Move the uploaded showcase files to the uploads folder
+foreach ($showcase_files as $key => $tmp_name) {
+    move_uploaded_file($tmp_name, '../uploads/showcase/' . $showcase_names[$key]);
+}
+        // Close the prepared statement and database connection
+        $stmt->close();
+        $conn->close();
+
+        echo 1;
+        // echo print_r($_FILES['showcase']);
+    } 
