@@ -17,10 +17,10 @@ if(isset($_POST['user_id'])){
         $stmt = $conn->prepare($query);
         $stmt->bind_param('si', $order_status, $order_id);
         if($stmt->execute()){
-                echo 1;
-                $stmt->close();
+            $stmt->close();
         }
-     
+        
     }
+    echo 1;
 }
 ?>

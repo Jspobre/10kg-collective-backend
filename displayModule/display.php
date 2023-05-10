@@ -7,7 +7,8 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 include_once '../db_conn.php';
 
 // $itemlist = query($conn, "select * from items where item_status='A'");
-$itemlist = query($conn, "SELECT * FROM items JOIN category ON items.item_category = category.category_id");
+$itemlist = query($conn, "SELECT * FROM items 
+                        JOIN category ON items.item_category = category.category_id");
 
 
 
