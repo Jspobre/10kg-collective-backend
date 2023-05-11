@@ -7,7 +7,7 @@ $reports;
 if(isset($_POST['filter_date'])){
    $date = $_POST['filter_date'];
 
-   $reports = query($conn, "SELECT DATE(orders.date_ordered) as date_ordered,  COUNT(*) as order_count, SUM(orders.order_qty * items.item_price) as total_sales
+   $reports = query($conn, "SELECT DATE(orders.date_ordered) as date_ordered,  COUNT(*) as order_count,SUM(orders.order_qty * items.item_price) as total_sales
                            FROM orders
                            JOIN items ON orders.item_id = items.item_id
                            WHERE DATE(orders.date_ordered) = '$date'");
@@ -18,14 +18,14 @@ if(isset($_POST['filter_date'])){
    $start_date = $date['start_date'];
    $end_date = $date['end_date'];
 
-   $reports = query($conn, "SELECT DATE(orders.date_ordered) AS order_date, COUNT(*) AS order_count, SUM(orders.order_qty * items.item_price) AS total_sales
+   $reports = query($conn, "SELECT DATE(orders.date_ordered) AS date_ordered, COUNT(*) AS order_count,SUM(orders.order_qty * items.item_price) AS total_sales
                            FROM orders
                            JOIN items ON orders.item_id = items.item_id
                            WHERE DATE(orders.date_ordered) BETWEEN '$start_date' AND '$end_date'
                            GROUP BY DATE(orders.date_ordered)");
 }else {
    // all dates
-   $reports = query($conn, "SELECT DATE(orders.date_ordered) AS date_ordered, COUNT(*) AS order_count, SUM(orders.order_qty * items.item_price) AS total_sales
+   $reports = query($conn, "SELECT DATE(orders.date_ordered) AS date_ordered, COUNT(*) AS order_count,SUM(orders.order_qty * items.item_price) AS total_sales
                               FROM orders
                               JOIN items ON orders.item_id = items.item_id
                               GROUP BY DATE(orders.date_ordered)");
