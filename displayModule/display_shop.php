@@ -7,10 +7,12 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 include_once '../db_conn.php';
 
 // $itemlist = query($conn, "select * from items where item_status='A'");
-$itemlist = query($conn, "SELECT * FROM orders
-                            JOIN user ON orders.user_id = user.user_id
-                            JOIN items ON orders.item_id = items.item_id
-                            ");
+$itemlist = query($conn, "SELECT * FROM items 
+                        JOIN category ON items.item_category = category.category_id
+                        WHERE items.item_status = 'A'");
+
+
+
 
 
 
@@ -23,4 +25,3 @@ if (is_array($itemlist)) {
     // Handle the case when $itemlist is not an array
     die("Maintenance Mode.");
 }
-
