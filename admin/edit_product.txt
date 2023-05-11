@@ -1,0 +1,99 @@
+<?php
+
+include_once "../db_conn.php";
+
+if(isset($_POST['item_id'])) {
+    $item_id = $_POST["item_id"];
+    $item_name = $_POST["item_name"];
+    $item_price = $_POST["item_price"];
+    $item_category = $_POST["item_category"];
+    $size_name = $_POST["size_name"];
+    $variation_name = $_POST["variation_name"];
+    // $thumbnail = $_FILES['thumbnail']; 
+
+    // // Handle thumbnail file
+    //     $image_location_thumbnail = 'http://localhost/10kg-collective/uploads/thumbnail/';
+    //     $thumbnail_name = uniqid() . '-' . $thumbnail['name'];
+    //     $thumbnail_location = $image_location_thumbnail . $thumbnail_name;
+    //     move_uploaded_file($thumbnail['tmp_name'], '../uploads/thumbnail/' . $thumbnail_name);
+
+
+    // Update item_name, item_price, and item_category in items table based on item_id
+    $stmt = $conn->prepare("UPDATE items SET item_name = ?, item_price = ?, item_category = ? WHERE item_id = ? ");
+    $stmt->bind_param("sisi", $item_name, $item_price, $item_category, $item_id);   
+    if ($stmt->execute()) {
+       
+
+        // Delete existing data in item_sizes table based on item_id
+        $stmt = $conn->prepare("DELETE FROM item_sizes WHERE item_id = ?");
+        $stmt->bind_param("i", $item_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // Delete existing data in item_variation table based on item_id
+        $stmt = $conn->prepare("DELETE FROM item_variation WHERE item_id = ?");
+        $stmt->bind_param("i", $item_id);
+        $stmt->execute();
+        $stmt->close();
+
+            // Insert new data into item_sizes table
+            foreach ($size_name as $size) {
+                $stmt = $conn->prepare("INSERT INTO item_sizes (item_id, size_name) VALUES (?, ?)");
+                $stmt->bind_param("is", $item_id, $size);
+                $stmt->execute();
+                $stmt->close();
+            }
+
+            // Insert new data into item_variation table
+            foreach ($variation_name as $variation) {
+                $stmt = $conn->prepare("INSERT INTO item_variation (item_id, variation_name) VALUES (?, ?)");
+                $stmt->bind_param("is", $item_id, $variation);
+                $stmt->execute();
+                $stmt->close();
+            }
+
+        $conn->close();
+
+    //     // HANDLE FILES
+    //     if (isset($_FILES['showcase'])) {
+        
+    //     $showcase = $_FILES['showcase'];
+
+    //     // Prepare the SQL statement
+    //     $stmt = $conn->prepare("INSERT INTO item_image (item_id, image_location, image_name) VALUES (?, ?, ?)");
+
+    //     // Bind the parameters
+    //     $image_location_showcase = 'http://localhost/10kg-collective/uploads/showcase/';
+
+    //     // Handle showcase files
+    //     $showcase_files = [];
+    //     $showcase_names = [];
+
+    //     // Iterate over each showcase file
+    //     foreach ($showcase['tmp_name'] as $key => $tmp_name) {
+    //         $showcase_name = uniqid() . '-' . $showcase['name'][$key];
+    //         $showcase_files[] = $tmp_name;
+    //         $showcase_names[] = $showcase_name;
+
+    //         $showcase_location = $image_location_showcase . $showcase_name;
+    //         $stmt->bind_param("iss", $item_id, $showcase_location, $showcase_name);
+    //         $stmt->execute();
+    //     }
+
+    //     // Move the uploaded showcase files to the uploads folder
+    //     foreach ($showcase_files as $key => $tmp_name) {
+    //         move_uploaded_file($tmp_name, '../uploads/showcase/' . $showcase_names[$key]);
+    //     }
+    //     // Close the prepared statement and database connection
+    //     $stmt->close();
+    //     $conn->close();
+
+    //     $fileInserted = true;
+
+
+    // } 
+
+            echo 1;
+    }
+}
+?>
