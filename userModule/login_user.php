@@ -67,10 +67,11 @@ if(isset($_POST['user_type'])){
                     // send as json object to react
                     echo json_encode($response);
            
-        }
+        
         } else {
-           die("Wrong Email or Password");
-
+            // if not matched
+            echo 3;
+        }
         }
     }else {
         // COURIER LOGIN
@@ -96,11 +97,12 @@ if(isset($_POST['user_type'])){
                     // send as json object to react
                     echo json_encode($response);
            
+        
+        }else {
+            // if not matched
+            echo 3;
         }
-        } else {
-           die("maintenance mode");
-
-        }
+    }
     }
 }
 
