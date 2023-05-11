@@ -20,22 +20,22 @@ if(isset($_POST['user_type'])){
         
         // if user is existing
         if(mysqli_num_rows($result) > 0){
-            $user = mysqli_fetch_assoc($result); //turn result into associative array
+            $row = mysqli_fetch_assoc($result); //turn result into associative array
                     // check pass
-                    if($password == $user['password']){
+                    if(password_verify($password, $row['password'])){
 
                     // if password matched
-                    $_SESSION['user_id'] = $user['user_id']; //set session
+                    $_SESSION['user_id'] = $row['user_id']; //set session
                     $_SESSION['user_type'] = 'U';
                     
                     // create a response array
                     $response = array('response_status' => 1
-                                    , 'user_id' => $user['user_id']
+                                    , 'user_id' => $row['user_id']
                                     , 'user_type' => $_SESSION['user_type']
-                                    , 'full_name' => $user['full_name']
-                                    , 'email_address' => $user['email_address']
-                                    , 'contact_no' => $user['contact_no']
-                                    , 'address' => $user['address']
+                                    , 'full_name' => $row['full_name']
+                                    , 'email_address' => $row['email_address']
+                                    , 'contact_no' => $row['contact_no']
+                                    , 'address' => $row['address']
                                 );
 
                     // send as json object to react
@@ -53,7 +53,7 @@ if(isset($_POST['user_type'])){
         $result= mysqli_query($conn,"SELECT * FROM user WHERE email_address = '$admin_email' AND user_type = 'A'");
         if(mysqli_num_rows($result) > 0){ // Use mysqli_num_rows instead of mysqli_fetch_assoc
             $row = mysqli_fetch_assoc($result); // Fetch the row only once and store it in $row
-            if($admin_pass == $row['password']){
+            if(password_verify($admin_pass, $row['password'])){
 
                 $_SESSION['user_id'] = $row['user_id']; //set session
                     $_SESSION['user_type'] = 'A';
@@ -76,13 +76,13 @@ if(isset($_POST['user_type'])){
     }else {
         // COURIER LOGIN
      $courier_email = $_POST['courier_email'];
-        $courier_password = $_POST['courier_password'];
+        $courier_pass = $_POST['courier_password'];
         $user_type = $_POST['user_type'];
 
         $result= mysqli_query($conn,"SELECT * FROM user WHERE email_address = '$courier_email' AND user_type = 'C'");
         if(mysqli_num_rows($result) > 0){ // Use mysqli_num_rows instead of mysqli_fetch_assoc
             $row = mysqli_fetch_assoc($result); // Fetch the row only once and store it in $row
-            if($courier_password == $row['password']){
+            if(password_verify($courier_pass, $row['password'])){
 
                 $_SESSION['courier_id'] = $row['user_id']; //set session
                     $_SESSION['user_type'] = 'C';

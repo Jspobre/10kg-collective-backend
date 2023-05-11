@@ -6,6 +6,7 @@
     $variationInserted = false;
     $fileInserted = false;
 
+
     if(isset($_POST['item_name'])){
         $item_name = $_POST['item_name'];
         $item_price = $_POST['item_price'];
@@ -13,24 +14,28 @@
         $size_name = implode(",", $_POST['size_name']); 
         $variation_name = implode(",", $_POST['variation_name']);
         $thumbnail = $_FILES['thumbnail']; 
-
-        // Handle thumbnail file
-        $image_location_thumbnail = 'http://localhost/10kg-collective/uploads/thumbnail/';
-        $thumbnail_name = uniqid() . '-' . $thumbnail['name'];
-        $thumbnail_location = $image_location_thumbnail . $thumbnail_name;
-        move_uploaded_file($thumbnail['tmp_name'], '../uploads/thumbnail/' . $thumbnail_name);
-
-        // $stmt->bind_param("iss", $item_id, $thumbnail_location, $thumbnail_name);
-        // $stmt->execute();
-
-        // Insert to items table
-        $sql = "INSERT INTO items (item_name, item_price, item_category, image_src) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("siss", $item_name, $item_price, $item_category, $thumbnail_location);
-        $stmt->execute();
-        $item_id = $stmt->insert_id;
-        $stmt->close();
-        $itemInserted = true;
+    
+    
+            // Handle thumbnail file
+            $image_location_thumbnail = 'http://localhost/10kg-collective/uploads/thumbnail/';
+            $thumbnail_name = uniqid() . '-' . $thumbnail['name'];
+            $thumbnail_location = $image_location_thumbnail . $thumbnail_name;
+            move_uploaded_file($thumbnail['tmp_name'], '../uploads/thumbnail/' . $thumbnail_name);
+    
+            // Insert item into database
+            $sql = "INSERT INTO items (item_name, item_price, item_category, image_src) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("siss", $item_name, $item_price, $item_category, $thumbnail_location);
+    
+            // Check if the statement was executed successfully
+            if ($stmt->execute()) {
+                $item_id = $stmt->insert_id;
+                $stmt->close();
+                $itemInserted = true;
+            } else {
+              echo 0;
+            }
+    
 
         // Insert size_name into item_sizes table as a JSON array
         if (!empty($size_name)) {
@@ -88,7 +93,7 @@
         }
         // Close the prepared statement and database connection
         $stmt->close();
-        $conn->close();
+        // $conn->close();
 
         $fileInserted = true;
 
@@ -99,7 +104,8 @@
     }else {
         echo 2;
     }
-    }else {
-        die("Maintenance Mode");
+    // else {
+    //     die("Maintenance Mode");
+    // }
     }
 ?>

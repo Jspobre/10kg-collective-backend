@@ -12,7 +12,7 @@ if(isset($_POST['reg_type'])){
     $cnumber=$_POST['contact_no'];
     $address=$_POST['address'];
     $email=$_POST['email_address'];
-    $password=$_POST['password'];
+    $password= password_hash($_POST['password'], PASSWORD_BCRYPT);
     $reg_type =$_POST['reg_type'];
     
     // check first if the email address already exists shibar
@@ -50,7 +50,8 @@ if(isset($_POST['reg_type'])){
         $cnumber=$_POST['contact_no'];
         $address=$_POST['address'];
         $email=$_POST['email_address'];
-        $password=$_POST['password'];
+        $password=password_hash($_POST['password'], PASSWORD_BCRYPT);
+
 
         $email = mysqli_real_escape_string($conn, $_POST['email_address']);
         $sql = "SELECT * FROM user WHERE email_address = '$email'";
