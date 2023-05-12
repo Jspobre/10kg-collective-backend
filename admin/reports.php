@@ -10,7 +10,7 @@ if(isset($_POST['filter_date'])){
    $reports = query($conn, "SELECT DATE(orders.date_ordered) as date_ordered,  COUNT(*) as order_count,SUM(orders.order_qty * items.item_price) as total_sales
                            FROM orders
                            JOIN items ON orders.item_id = items.item_id
-                           WHERE DATE(orders.date_ordered) = '$date'");
+                           WHERE DATE(orders.date_ordered) = '$date' AND orders.payment_status = 'Paid'");
    
 }else if(isset($_POST['filter_range'])) {
    // with range
@@ -21,13 +21,14 @@ if(isset($_POST['filter_date'])){
    $reports = query($conn, "SELECT DATE(orders.date_ordered) AS date_ordered, COUNT(*) AS order_count,SUM(orders.order_qty * items.item_price) AS total_sales
                            FROM orders
                            JOIN items ON orders.item_id = items.item_id
-                           WHERE DATE(orders.date_ordered) BETWEEN '$start_date' AND '$end_date'
+                           WHERE DATE(orders.date_ordered) BETWEEN '$start_date' AND '$end_date' AND orders.payment_status = 'Paid'
                            GROUP BY DATE(orders.date_ordered)");
 }else {
    // all dates
    $reports = query($conn, "SELECT DATE(orders.date_ordered) AS date_ordered, COUNT(*) AS order_count,SUM(orders.order_qty * items.item_price) AS total_sales
                               FROM orders
                               JOIN items ON orders.item_id = items.item_id
+                              WHERE orders.payment_status = 'Paid'
                               GROUP BY DATE(orders.date_ordered)");
 
 }

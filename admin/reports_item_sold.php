@@ -7,7 +7,7 @@ if(isset($_POST['date_ordered'])){
     $reports = query($conn, "SELECT items.item_name,  COUNT(*) as order_count,SUM(orders.order_qty) AS total_qty, SUM(orders.order_qty * items.item_price) as sales_amount
                            FROM orders
                            JOIN items ON orders.item_id = items.item_id
-                           WHERE DATE(orders.date_ordered) = '$date'
+                           WHERE DATE(orders.date_ordered) = '$date' AND orders.payment_status = 'Paid'
                            GROUP BY items.item_name");
    
 }
