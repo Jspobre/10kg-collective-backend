@@ -7,7 +7,7 @@ include_once '../db_conn.php';
 if(isset($_POST['order_id'])){
     
     $order_id = $_POST['order_id'];
-    $status = "Canceled";
+    $status = "Cancelled";
     $sql = "UPDATE orders 
                     SET order_status = ? 
                     WHERE order_id = ?";
