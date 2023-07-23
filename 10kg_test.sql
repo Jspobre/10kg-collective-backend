@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2023 at 11:53 AM
+-- Generation Time: May 12, 2023 at 06:09 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -29,17 +29,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `category` (
   `category_id` int(20) NOT NULL,
-  `category_name` varchar(255) NOT NULL,
-  `category_desc` varchar(255) NOT NULL
+  `category_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`category_id`, `category_name`, `category_desc`) VALUES
-(1, 'Tees', 'T-shirts'),
-(2, 'Shorts', 'sick shirts!');
+INSERT INTO `category` (`category_id`, `category_name`) VALUES
+(1, 'Tees'),
+(2, 'Shorts'),
+(3, 'Pants');
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,8 @@ CREATE TABLE `items` (
   `item_name` varchar(255) NOT NULL,
   `item_price` decimal(10,0) NOT NULL,
   `item_category` int(11) NOT NULL,
-  `item_status` varchar(1) NOT NULL DEFAULT 'A',
+  `image_src` varchar(255) NOT NULL,
+  `item_status` varchar(1) NOT NULL DEFAULT 'A' COMMENT '"A" = active "I" = Inactive',
   `date_added` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -60,13 +61,45 @@ CREATE TABLE `items` (
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`item_id`, `item_name`, `item_price`, `item_category`, `item_status`, `date_added`) VALUES
-(2, 'weightless', '999', 1, 'A', '2023-03-22'),
-(3, 'Weightless', '350', 1, 'A', '2023-03-22'),
-(4, 'Trust the Process', '499', 1, 'A', '2023-03-23'),
-(5, 'test', '321', 1, 'A', '2023-03-23'),
-(6, 'testt', '123', 1, 'A', '2023-03-23'),
-(7, 'Test short', '288', 2, 'A', '2023-03-23');
+INSERT INTO `items` (`item_id`, `item_name`, `item_price`, `item_category`, `image_src`, `item_status`, `date_added`) VALUES
+(23, 'Trust the Process Shirt', '450', 1, 'http://localhost/10kg-collective/uploads/thumbnail/645b70c1ec790-partner 1.jpg', 'A', '2023-05-10'),
+(25, 'Plain Series Tee', '350', 1, 'http://localhost/10kg-collective/uploads/thumbnail/645b974c0bd5e-IMG20230218204014.jpg', 'A', '2023-05-10'),
+(26, 'Weightless', '450', 1, 'http://localhost/10kg-collective/uploads/thumbnail/645daebff3907-WEIGHTLESS - Clone.jpg', 'A', '2023-05-12'),
+(27, 'Summer Shorts', '299', 2, 'http://localhost/10kg-collective/uploads/thumbnail/645dafca7efea-2.png', 'A', '2023-05-12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_image`
+--
+
+CREATE TABLE `item_image` (
+  `img_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `image_location` varchar(255) NOT NULL,
+  `image_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `item_image`
+--
+
+INSERT INTO `item_image` (`img_id`, `item_id`, `image_location`, `image_name`) VALUES
+(26, 23, 'http://localhost/10kg-collective/uploads/showcase/645b70c1ed517-IMG_20220918_163450.jpg', '645b70c1ed517-IMG_20220918_163450.jpg'),
+(27, 23, 'http://localhost/10kg-collective/uploads/showcase/645b70c1eea23-IMG_20220918_163543.jpg', '645b70c1eea23-IMG_20220918_163543.jpg'),
+(28, 23, 'http://localhost/10kg-collective/uploads/showcase/645b70c1ef182-IMG_20220918_163628.jpg', '645b70c1ef182-IMG_20220918_163628.jpg'),
+(33, 25, 'http://localhost/10kg-collective/uploads/showcase/645b974c12dd2-333979215_635396045018444_9040754058387247656_n.jpg', '645b974c12dd2-333979215_635396045018444_9040754058387247656_n.jpg'),
+(34, 25, 'http://localhost/10kg-collective/uploads/showcase/645b974c1370f-334112502_167154722762533_8224857963642094075_n.jpg', '645b974c1370f-334112502_167154722762533_8224857963642094075_n.jpg'),
+(35, 25, 'http://localhost/10kg-collective/uploads/showcase/645b974c13e19-333643827_1967270723651859_6880391815766248661_n.jpg', '645b974c13e19-333643827_1967270723651859_6880391815766248661_n.jpg'),
+(36, 25, 'http://localhost/10kg-collective/uploads/showcase/645b974c14e8e-334656953_6082167848509340_4935458176519308158_n.jpg', '645b974c14e8e-334656953_6082167848509340_4935458176519308158_n.jpg'),
+(45, 26, 'http://localhost/10kg-collective/uploads/showcase/645daec0029d3-BLACK BACK.png', '645daec0029d3-BLACK BACK.png'),
+(46, 26, 'http://localhost/10kg-collective/uploads/showcase/645daec003084-BLACK FRONT.png', '645daec003084-BLACK FRONT.png'),
+(47, 26, 'http://localhost/10kg-collective/uploads/showcase/645daec003761-WHITE BACK.png', '645daec003761-WHITE BACK.png'),
+(48, 26, 'http://localhost/10kg-collective/uploads/showcase/645daec0043a0-WHITE FRONT.png', '645daec0043a0-WHITE FRONT.png'),
+(49, 27, 'http://localhost/10kg-collective/uploads/showcase/645dafca81931-IMG20230304161632.jpg', '645dafca81931-IMG20230304161632.jpg'),
+(50, 27, 'http://localhost/10kg-collective/uploads/showcase/645dafca822e6-IMG20230304162035.jpg', '645dafca822e6-IMG20230304162035.jpg'),
+(51, 27, 'http://localhost/10kg-collective/uploads/showcase/645dafca82da9-IMG20230304162533.jpg', '645dafca82da9-IMG20230304162533.jpg'),
+(52, 27, 'http://localhost/10kg-collective/uploads/showcase/645dafca832ef-IMG20230304163256.jpg', '645dafca832ef-IMG20230304163256.jpg');
 
 -- --------------------------------------------------------
 
@@ -85,7 +118,10 @@ CREATE TABLE `item_sizes` (
 --
 
 INSERT INTO `item_sizes` (`size_id`, `item_id`, `size_name`) VALUES
-(1, 2, 'Small');
+(34, 23, '[\"Medium\",\"Large\",\"Extra Large\"]'),
+(36, 25, '[\"Small\",\"Medium\",\"Large\",\"Extra Large\"]'),
+(45, 26, '[\"Medium\",\"Large\",\"Extra Large\"]'),
+(46, 27, '[\"Medium\",\"Large\"]');
 
 -- --------------------------------------------------------
 
@@ -104,7 +140,10 @@ CREATE TABLE `item_variation` (
 --
 
 INSERT INTO `item_variation` (`variation_id`, `item_id`, `variation_name`) VALUES
-(1, 2, 'Gray');
+(34, 23, '[\"Black\"]'),
+(36, 25, '[\"Arctic\",\"Mustard\",\"Gray\",\"Cream\"]'),
+(45, 26, '[\"Black\",\"White\"]'),
+(46, 27, '[\"Ash\",\"Sand\",\"Floral\",\"Tie-Dye\"]');
 
 -- --------------------------------------------------------
 
@@ -119,17 +158,11 @@ CREATE TABLE `orders` (
   `order_qty` int(20) NOT NULL,
   `item_variant` varchar(11) NOT NULL,
   `item_size` varchar(11) NOT NULL,
-  `order_status` varchar(54) NOT NULL,
+  `order_status` varchar(54) NOT NULL COMMENT '"Cart" = in Cart\r\n"P" = Pending\r\n"C" = Confirmed\r\n"Canceled" = canceled order',
   `date_ordered` datetime NOT NULL DEFAULT current_timestamp(),
-  `payment_status` varchar(51) NOT NULL DEFAULT 'Unpaid'
+  `payment_status` varchar(51) NOT NULL DEFAULT 'Unpaid' COMMENT '"Unpaid" & "Paid"',
+  `delivery_status` varchar(2) NOT NULL DEFAULT 'NS' COMMENT '"NS" = Not yet shipped\r\n"S" = Shipped\r\n"D" = Delivered\r\n"R" = Rejected by customer'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`order_id`, `user_id`, `item_id`, `order_qty`, `item_variant`, `item_size`, `order_status`, `date_ordered`, `payment_status`) VALUES
-(5, 7, 2, 1, 'Gray', 'S', 'P', '2023-03-27 17:40:29', 'Unpaid');
 
 -- --------------------------------------------------------
 
@@ -143,25 +176,18 @@ CREATE TABLE `user` (
   `contact_no` varchar(20) NOT NULL,
   `address` varchar(255) NOT NULL,
   `email_address` varchar(255) NOT NULL,
-  `password` char(255) NOT NULL
+  `password` char(255) NOT NULL,
+  `user_type` varchar(1) NOT NULL DEFAULT 'U' COMMENT '"U" = User, "A" = Admin, "C" = Courier'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `full_name`, `contact_no`, `address`, `email_address`, `password`) VALUES
-(2, 'jonathan moralde', '09123456789', 'anayan, pili, camarines sur', 'jonathanhernandez.moralde@bicol-u.edu.ph', 'test123123'),
-(3, 'jonathan moralde', '09123456489', 'anayan,pili,camarines sur', 'jonathanhernandez.moralde@bicol-u.edu.ph', 'test123123'),
-(4, 'jonathan moralde', '09123456789', 'anayan, pili, camarines sur', 'jonathanhernandez.moralde@bicol-u.edu.ph', 'test123123'),
-(5, 'asdfasdf', '12312312312', 'fadsfasdfa', 'test@email.com', 'testets123'),
-(6, '123123', '12312312312', 'dsfas', 'dfasdfasdf', '3123123'),
-(7, 'jonnel angelo', '09123971792', 'polangui', 'jonnel@gmail.com', 'hello'),
-(8, 'nemesis the best', '09127319768', 'layon', 'nemesis@gmail.com', 'nemesis'),
-(9, 'clyde bonagua david', '0912831712', 'libon', 'clyde@mail.com', 'clyde'),
-(10, 'i am the best', '21893891289', 'ajkjkajka', 'adam@ladjkak', 'akldkla231'),
-(11, 'adadad', '12312312312', 'asdf', 'ersaser@mda.com', '123213'),
-(12, 'etsedasd', '12312312311', 'asdfasdf', 'asdfas21@emads.com', '123123');
+INSERT INTO `user` (`user_id`, `full_name`, `contact_no`, `address`, `email_address`, `password`, `user_type`) VALUES
+(21, 'jonnel angelo bonagua', '8123818', 'kinale', 'jonneladmin@gmail.com', '$2y$10$nIwzVE5AsJUITO1uXtnNmeX/aVeF0pWYrtVKsixHACWqH7i/XUHxK', 'A'),
+(22, 'courier 1', '127387178', 'layon', 'courier_10kg@10kg.com', '$2y$10$nIwzVE5AsJUITO1uXtnNmeX/aVeF0pWYrtVKsixHACWqH7i/XUHxK', 'C'),
+(23, 'jack', '8912983189', 'akldkajk123', 'nemesis22@gmail.com', '$2y$10$DvTPuXaBlqQLG8FjwdgJj.WrxW4fcnu8hUk5qcHv4Cn4CZKsdBwvm', 'U');
 
 --
 -- Indexes for dumped tables
@@ -179,6 +205,13 @@ ALTER TABLE `category`
 ALTER TABLE `items`
   ADD PRIMARY KEY (`item_id`),
   ADD KEY `item_category` (`item_category`);
+
+--
+-- Indexes for table `item_image`
+--
+ALTER TABLE `item_image`
+  ADD PRIMARY KEY (`img_id`),
+  ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `item_sizes`
@@ -218,37 +251,43 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `category_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `item_image`
+--
+ALTER TABLE `item_image`
+  MODIFY `img_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `item_sizes`
 --
 ALTER TABLE `item_sizes`
-  MODIFY `size_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `size_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `item_variation`
 --
 ALTER TABLE `item_variation`
-  MODIFY `variation_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `variation_id` int(14) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `order_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables
@@ -259,6 +298,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `items`
   ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`item_category`) REFERENCES `category` (`category_id`);
+
+--
+-- Constraints for table `item_image`
+--
+ALTER TABLE `item_image`
+  ADD CONSTRAINT `item_image_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`);
 
 --
 -- Constraints for table `item_sizes`
